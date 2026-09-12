@@ -5,6 +5,7 @@ import Icon from '../../components/Icon.astro';
 import SpecsBlock from '../../components/SpecsBlock.astro';
 import VideoFacade from '../../components/VideoFacade.astro';
 import { getAllProjects, CATEGORY_LABELS } from '../../lib/projects';
+import { url } from '../../lib/url';
 
 export async function getStaticPaths() {
   const projects = await getAllProjects();
@@ -40,7 +41,7 @@ const jsonLd = {
 
 <Layout title={`${title} — Portfolio`} description={project.data.summary}>
   <div class="mx-auto max-w-content px-6 py-16 lg:py-24">
-    <a href="/" id="back-link" class="text-step-neg1 text-muted hover:text-accent">&larr; Back to timeline</a>
+    <a href={url('/')} id="back-link" class="text-step-neg1 text-muted hover:text-accent">&larr; Back to timeline</a>
 
     <header class="prose-column mt-6">
       <div class="mono flex items-center gap-3 text-step-neg1 text-muted">
@@ -82,24 +83,26 @@ const jsonLd = {
 
     <nav class="mt-16 flex justify-between border-t border-line pt-6 text-step-neg1" aria-label="Project navigation">
       {prev ? (
-        <a href={`/projects/${prev.id}/`} class="text-muted hover:text-accent">&larr; {prev.data.title}</a>
+        <a href={url(`projects/${prev.id}/`)} class="text-muted hover:text-accent">&larr; {prev.data.title}</a>
       ) : <span />}
       {next ? (
-        <a href={`/projects/${next.id}/`} class="text-right text-muted hover:text-accent">{next.data.title} &rarr;</a>
+        <a href={url(`projects/${next.id}/`)} class="text-right text-muted hover:text-accent">{next.data.title} &rarr;</a>
       ) : <span />}
     </nav>
   </div>
 
   <script is:inline type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
   <script>
+    import { url } from '../../lib/url';
+
     try {
       const filter = sessionStorage.getItem('portfolio-filter');
       if (filter && filter !== 'all') {
         const link = document.getElementById('back-link') as HTMLAnchorElement | null;
-        if (link) link.href = `/?filter=${encodeURIComponent(filter)}`;
+        if (link) link.href = `${url('/')}?filter=${encodeURIComponent(filter)}`;
       }
     } catch {
-      // sessionStorage unavailable — fall back to the plain "/" link
+      // sessionStorage unavailable — fall back to the plain home link
     }
   </script>
 </Layout>

@@ -1,5 +1,6 @@
 ---
 import { SITE_CONFIG } from '../config/site';
+import { url } from '../lib/url';
 import LinkButton from './LinkButton.astro';
 import FilterChips from './FilterChips.astro';
 ---
@@ -10,7 +11,7 @@ import FilterChips from './FilterChips.astro';
     <p class="hero-reveal mt-4 max-w-sm text-step-0 text-muted" style="--reveal-delay: 150ms">{SITE_CONFIG.tagline}</p>
 
     <nav aria-label="Elsewhere" class="hero-reveal mt-8 flex flex-wrap gap-3" style="--reveal-delay: 300ms">
-      <LinkButton href={SITE_CONFIG.links.resume} icon="resume" label="Resume" />
+      <LinkButton href={url(SITE_CONFIG.links.resume)} icon="resume" label="Resume" />
       <LinkButton href={SITE_CONFIG.links.github} icon="github" label="GitHub" />
       <LinkButton href={SITE_CONFIG.links.youtube} icon="youtube" label="YouTube" />
       <LinkButton href={SITE_CONFIG.links.linkedin} icon="linkedin" label="LinkedIn" />

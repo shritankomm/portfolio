@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css';
+import { url } from '../lib/url';
 
 interface Props {
   title: string;
@@ -7,7 +8,7 @@ interface Props {
   ogImage?: string;
 }
 
-const { title, description, ogImage = '/og.png' } = Astro.props;
+const { title, description, ogImage = url('og.png') } = Astro.props;
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 const ogImageURL = new URL(ogImage, Astro.site);
 
@@ -29,9 +30,9 @@ const personJsonLd = {
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/svg+xml" href={url('favicon.svg')} />
     <link rel="canonical" href={canonicalURL} />
-    <link rel="sitemap" href="/sitemap-index.xml" />
+    <link rel="sitemap" href={url('sitemap-index.xml')} />
 
     <title>{title}</title>
     <meta name="description" content={description} />

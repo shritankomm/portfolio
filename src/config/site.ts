@@ -6,7 +6,7 @@ export const SITE_CONFIG = {
   // TODO: replace with the owner's final wording (draft from spec §7.1)
   tagline: 'I build open-source robotic arms and write the software that drives them.',
   links: {
-    resume: '/resume.pdf',
+    resume: 'resume.pdf', // resolved against the base path — see src/lib/url.ts
     github: 'https://github.com/shritankomm',
     // TODO: YouTube channel URL needed from owner
     youtube: 'https://www.youtube.com/TODO',

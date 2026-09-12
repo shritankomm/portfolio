@@ -1,6 +1,7 @@
 ---
 import { Image } from 'astro:assets';
 import type { Project } from '../lib/projects';
+import { url } from '../lib/url';
 import VideoFacade from './VideoFacade.astro';
 
 interface Props {
@@ -30,7 +31,7 @@ const { title, summary, tech, youtube, github, docs, date, cover, coverAlt } = p
   </div>
 
   <h3 class="mt-1 text-step-1 font-bold text-bright">
-    <a href={`/projects/${project.id}/`} class="hover:text-accent">{title}</a>
+    <a href={url(`projects/${project.id}/`)} class="hover:text-accent">{title}</a>
   </h3>
 
   <p class="prose-column mt-3 text-text">{summary}</p>
@@ -84,6 +85,6 @@ const { title, summary, tech, youtube, github, docs, date, cover, coverAlt } = p
         </a>
       )
     }
-    <a href={`/projects/${project.id}/`} class="text-muted hover:text-accent">Full writeup</a>
+    <a href={url(`projects/${project.id}/`)} class="text-muted hover:text-accent">Full writeup</a>
   </div>
 </div>
