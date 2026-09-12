@@ -47,7 +47,7 @@ const personJsonLd = {
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImageURL} />
 
-    <script type="application/ld+json" set:html={JSON.stringify(personJsonLd)} />
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(personJsonLd)} />
   </head>
   <body>
     <slot />

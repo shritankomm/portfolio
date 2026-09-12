@@ -90,7 +90,7 @@ const jsonLd = {
     </nav>
   </div>
 
-  <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+  <script is:inline type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
   <script>
     try {
       const filter = sessionStorage.getItem('portfolio-filter');

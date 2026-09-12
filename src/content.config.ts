@@ -16,9 +16,7 @@ const projects = defineCollection({
       status: z.enum(['complete', 'in-progress', 'archived']).default('complete'),
       featured: z.boolean().default(false),
       category: z.enum(['robotics', 'software', 'competition'], {
-        errorMap: () => ({
-          message: 'category must be one of: "robotics", "software", "competition"'
-        })
+        error: 'category must be one of: "robotics", "software", "competition"'
       }),
       summary: z.string().max(180),
       tech: z.array(z.string()),
