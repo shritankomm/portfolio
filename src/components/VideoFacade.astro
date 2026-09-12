@@ -1,0 +1,23 @@
+---
+import 'lite-youtube-embed/src/lite-yt-embed.css';
+
+interface Props {
+  videoId: string;
+  title: string;
+  class?: string;
+}
+
+const { videoId, title, class: className = '' } = Astro.props;
+---
+
+<lite-youtube
+  class={className}
+  videoid={videoId}
+  playlabel={`Play video: ${title}`}
+  style={`background-image: url('https://i.ytimg.com/vi/${videoId}/maxresdefault.jpg');`}
+>
+</lite-youtube>
+
+<script>
+  import 'lite-youtube-embed/src/lite-yt-embed.js';
+</script>

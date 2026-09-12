@@ -1,0 +1,22 @@
+---
+import Icon from './Icon.astro';
+
+interface Props {
+  href: string;
+  icon: 'resume' | 'github' | 'youtube' | 'linkedin';
+  label: string;
+}
+
+const { href, icon, label } = Astro.props;
+const isExternal = href.startsWith('http');
+---
+
+<a
+  href={href}
+  target="_blank"
+  rel={isExternal ? 'noopener noreferrer' : undefined}
+  class="group flex min-h-11 items-center gap-2 rounded-md border border-line bg-transparent px-4 py-2.5 text-text transition-colors hover:border-accent hover:text-accent"
+>
+  <Icon name={icon} class="shrink-0" />
+  <span class="text-step-0 font-medium">{label}</span>
+</a>

@@ -1,0 +1,35 @@
+---
+import Layout from '../layouts/Layout.astro';
+import LeftColumn from '../components/LeftColumn.astro';
+import Timeline from '../components/Timeline.astro';
+import { getAllProjects } from '../lib/projects';
+import { SITE_CONFIG } from '../config/site';
+
+const projects = await getAllProjects();
+---
+
+<Layout
+  title={`${SITE_CONFIG.name} — Robotics builder`}
+  description={SITE_CONFIG.tagline}
+>
+  <div class="mx-auto max-w-content min-w-0 px-6">
+    <div class="lg:grid lg:grid-cols-[320px_minmax(0,1fr)] lg:gap-12">
+      <div class="min-w-0 lg:sticky lg:top-0 lg:h-screen lg:overflow-y-auto">
+        <LeftColumn />
+      </div>
+
+      <main class="min-w-0 py-16 lg:py-24">
+        <h2 class="sr-only">Projects</h2>
+        <Timeline projects={projects} />
+      </main>
+    </div>
+
+    <footer class="border-t border-line py-8 text-step-neg1 text-muted">
+      <p>
+        Built with Astro + Tailwind, deployed on Vercel. &copy; {new Date().getFullYear()}{' '}
+        {SITE_CONFIG.name}. <a href={SITE_CONFIG.repoUrl} class="hover:text-accent" target="_blank" rel="noopener noreferrer">Site source</a>.
+      </p>
+      <p class="mt-1">Design influenced by Brittany Chiang.</p>
+    </footer>
+  </div>
+</Layout>

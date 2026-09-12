@@ -1,0 +1,23 @@
+---
+import { SITE_CONFIG } from '../config/site';
+import LinkButton from './LinkButton.astro';
+import FilterChips from './FilterChips.astro';
+---
+
+<header class="flex h-full flex-col justify-between py-16 lg:py-24">
+  <div>
+    <h1 class="hero-reveal text-step-4 leading-none font-bold break-words text-bright" style="--reveal-delay: 0ms">{SITE_CONFIG.name}</h1>
+    <p class="hero-reveal mt-4 max-w-sm text-step-0 text-muted" style="--reveal-delay: 150ms">{SITE_CONFIG.tagline}</p>
+
+    <nav aria-label="Elsewhere" class="hero-reveal mt-8 flex flex-wrap gap-3" style="--reveal-delay: 300ms">
+      <LinkButton href={SITE_CONFIG.links.resume} icon="resume" label="Resume" />
+      <LinkButton href={SITE_CONFIG.links.github} icon="github" label="GitHub" />
+      <LinkButton href={SITE_CONFIG.links.youtube} icon="youtube" label="YouTube" />
+      <LinkButton href={SITE_CONFIG.links.linkedin} icon="linkedin" label="LinkedIn" />
+    </nav>
+
+    <div class="sticky top-0 z-20 -mx-6 mt-10 border-t border-b border-line bg-ink/95 px-6 py-3 backdrop-blur-sm lg:static lg:mx-0 lg:border-b-0 lg:bg-transparent lg:px-0 lg:pt-6 lg:pb-0 lg:backdrop-blur-none">
+      <FilterChips />
+    </div>
+  </div>
+</header>

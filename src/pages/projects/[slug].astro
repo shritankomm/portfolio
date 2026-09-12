@@ -1,0 +1,105 @@
+---
+import { render } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+import Icon from '../../components/Icon.astro';
+import SpecsBlock from '../../components/SpecsBlock.astro';
+import VideoFacade from '../../components/VideoFacade.astro';
+import { getAllProjects, CATEGORY_LABELS } from '../../lib/projects';
+
+export async function getStaticPaths() {
+  const projects = await getAllProjects();
+  return projects.map((project, index) => ({
+    params: { slug: project.id },
+    props: {
+      project,
+      prev: projects[index + 1] ?? null,
+      next: projects[index - 1] ?? null
+    }
+  }));
+}
+
+const { project, prev, next } = Astro.props;
+const { Content } = await render(project);
+const { title, date, endDate, status, category, specs, github, youtube, docs } = project.data;
+
+const STATUS_LABELS: Record<typeof status, string> = {
+  complete: 'Complete',
+  'in-progress': 'In progress',
+  archived: 'Archived'
+};
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'CreativeWork',
+  name: title,
+  about: CATEGORY_LABELS[category],
+  dateCreated: date,
+  ...(github ? { codeRepository: github } : {})
+};
+---
+
+<Layout title={`${title} — Portfolio`} description={project.data.summary}>
+  <div class="mx-auto max-w-content px-6 py-16 lg:py-24">
+    <a href="/" id="back-link" class="text-step-neg1 text-muted hover:text-accent">&larr; Back to timeline</a>
+
+    <header class="prose-column mt-6">
+      <div class="mono flex items-center gap-3 text-step-neg1 text-muted">
+        <span>{date}{endDate ? `–${endDate}` : ''}</span>
+        <span class="rounded border border-line px-2 py-0.5">{STATUS_LABELS[status]}</span>
+      </div>
+      <h1 class="mt-2 text-step-3 font-bold text-bright">{title}</h1>
+    </header>
+
+    {specs && specs.length > 0 && (
+      <div class="mt-6 max-w-content">
+        <SpecsBlock specs={specs} />
+      </div>
+    )}
+
+    <div class="mt-6 flex flex-wrap gap-4 text-step-neg1">
+      {github && (
+        <a href={github} target="_blank" rel="noopener noreferrer" class="flex items-center gap-1.5 text-muted hover:text-accent">
+          <Icon name="github" /> GitHub
+        </a>
+      )}
+      {youtube && (
+        <a href={`https://youtube.com/watch?v=${youtube}`} target="_blank" rel="noopener noreferrer" class="flex items-center gap-1.5 text-muted hover:text-accent">
+          <Icon name="youtube" /> YouTube
+        </a>
+      )}
+      {docs && (
+        <a href={docs} target="_blank" rel="noopener noreferrer" class="flex items-center gap-1.5 text-muted hover:text-accent">
+          <Icon name="external-link" /> Docs
+        </a>
+      )}
+    </div>
+
+    {youtube && <VideoFacade videoId={youtube} title={title} class="mt-8 max-w-content rounded-lg" />}
+
+    <div class="prose-column mt-10 text-text [&_h2]:mt-8 [&_h2]:text-step-2 [&_h2]:font-bold [&_h2]:text-bright [&_p]:mt-3">
+      <Content />
+    </div>
+
+    <nav class="mt-16 flex justify-between border-t border-line pt-6 text-step-neg1" aria-label="Project navigation">
+      {prev ? (
+        <a href={`/projects/${prev.id}/`} class="text-muted hover:text-accent">&larr; {prev.data.title}</a>
+      ) : <span />}
+      {next ? (
+        <a href={`/projects/${next.id}/`} class="text-right text-muted hover:text-accent">{next.data.title} &rarr;</a>
+      ) : <span />}
+    </nav>
+  </div>
+
+  <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+  <script>
+    try {
+      const filter = sessionStorage.getItem('portfolio-filter');
+      if (filter && filter !== 'all') {
+        const link = document.getElementById('back-link') as HTMLAnchorElement | null;
+        if (link) link.href = `/?filter=${encodeURIComponent(filter)}`;
+      }
+    } catch {
+      // sessionStorage unavailable — fall back to the plain "/" link
+    }
+  </script>
+</Layout>

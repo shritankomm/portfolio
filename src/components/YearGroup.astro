@@ -1,0 +1,35 @@
+---
+import { numberWithinYear, type YearGroup as YearGroupType } from '../lib/projects';
+import ProjectCardFeatured from './ProjectCardFeatured.astro';
+import ProjectRowStandard from './ProjectRowStandard.astro';
+
+interface Props {
+  group: YearGroupType;
+  collapsible?: boolean;
+}
+
+const { group, collapsible = false } = Astro.props;
+---
+
+<li data-year-group class:list={['relative', { 'earlier-year': collapsible }]}>
+  <div class="sticky top-0 z-10 -ml-px flex items-center gap-2 bg-ink/95 py-2 pl-10 backdrop-blur-sm">
+    <span class="mono text-step-1 font-medium text-bright">{group.year}</span>
+  </div>
+  <div class:list={[{ 'collapse-panel grid grid-rows-[0fr] transition-[grid-template-rows] duration-300 ease-out': collapsible }]}>
+    <div class:list={[{ 'overflow-hidden': collapsible }]}>
+      <ol>
+        {
+          group.projects.map((project) => (
+            <li>
+              {project.data.featured ? (
+                <ProjectCardFeatured project={project} number={numberWithinYear(group, project)} />
+              ) : (
+                <ProjectRowStandard project={project} number={numberWithinYear(group, project)} />
+              )}
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </div>
+</li>

@@ -1,0 +1,156 @@
+@import "tailwindcss";
+
+/* IBM Plex Mono — dates, tags, BOM/spec figures. Real data only, never generic UI labels. */
+@import "@fontsource/ibm-plex-mono/400.css";
+@import "@fontsource/ibm-plex-mono/500.css";
+
+/*
+ * TEMPORARY: Satoshi (Fontshare) is not distributable via npm/Fontsource — its license
+ * requires downloading the woff2 files directly from fontshare.com/fonts/satoshi.
+ * Sora (OFL, via @fontsource/sora) stands in until the owner drops the real files into
+ * src/fonts/satoshi/ and swaps the @font-face block below. See README "Fonts" section.
+ */
+@import "@fontsource/sora/400.css";
+@import "@fontsource/sora/500.css";
+@import "@fontsource/sora/700.css";
+
+@theme {
+  /* ---- 4.1 Color (generates bg-, text-, and border- utilities) ---- */
+  --color-ink: #0c1620;
+  --color-surface: #142232;
+  --color-line: #22374b;
+  --color-muted: #7d93a8;
+  --color-text: #cfdeec;
+  --color-bright: #eaf2f9;
+  --color-accent: #e9a33c;
+
+  --font-sans: "Sora", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", monospace;
+}
+
+/* ---- 4.2 Type scale + 4.3 layout — plain custom properties, applied via the
+   utility classes below rather than through Tailwind's theme namespace, since
+   the scale here (fluid clamps, an 8px section rhythm) doesn't map cleanly
+   onto Tailwind's default spacing/font-size steps. ---- */
+:root {
+  --step-neg1: 0.8rem;
+  --step-0: 1rem;
+  --step-1: clamp(1.15rem, 1.05rem + 0.4vw, 1.25rem);
+  --step-2: clamp(1.4rem, 1.2rem + 0.8vw, 1.6rem);
+  --step-3: clamp(1.8rem, 1.5rem + 1.2vw, 2.2rem);
+  --step-4: clamp(2.6rem, 1.8rem + 3vw, 4.5rem);
+
+  --section-gap-desktop: 96px;
+  --section-gap-mobile: 64px;
+  --content-width: 1100px;
+  --reading-width: 720px;
+}
+
+@layer utilities {
+  .text-step-neg1 {
+    font-size: var(--step-neg1);
+  }
+  .text-step-0 {
+    font-size: var(--step-0);
+  }
+  .text-step-1 {
+    font-size: var(--step-1);
+  }
+  .text-step-2 {
+    font-size: var(--step-2);
+  }
+  .text-step-3 {
+    font-size: var(--step-3);
+  }
+  .text-step-4 {
+    font-size: var(--step-4);
+  }
+  .section-rhythm {
+    padding-block: var(--section-gap-mobile);
+  }
+  @media (min-width: 1024px) {
+    .section-rhythm {
+      padding-block: var(--section-gap-desktop);
+    }
+  }
+  .max-w-content {
+    max-width: var(--content-width);
+  }
+  .max-w-reading {
+    max-width: var(--reading-width);
+  }
+}
+
+@layer base {
+  :root {
+    color-scheme: dark;
+  }
+
+  html {
+    background: var(--color-ink);
+    font-family: var(--font-sans);
+  }
+
+  body {
+    background: var(--color-ink);
+    color: var(--color-text);
+    line-height: 1.65;
+    font-size: var(--step-0);
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    color: var(--color-bright);
+    line-height: 1.15;
+    font-weight: 700;
+  }
+
+  a {
+    color: inherit;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+  }
+
+  .mono {
+    font-family: var(--font-mono);
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* §4.4 — the one orchestrated load moment: hero name, tagline, and link row
+     reveal in sequence over ~600ms. Nothing else animates on load. */
+  @keyframes hero-reveal {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  .hero-reveal {
+    animation: hero-reveal 400ms ease-out both;
+    animation-delay: var(--reveal-delay, 0ms);
+  }
+
+  .prose-column {
+    max-width: 68ch;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}

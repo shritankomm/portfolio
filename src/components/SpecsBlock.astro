@@ -1,0 +1,18 @@
+---
+interface Props {
+  specs: { label: string; value: string }[];
+}
+
+const { specs } = Astro.props;
+---
+
+<dl class="flex flex-wrap gap-x-6 gap-y-2 border-y border-line py-4">
+  {
+    specs.map((spec) => (
+      <div class="flex items-baseline gap-2">
+        <dt class="text-step-neg1 text-muted">{spec.label}</dt>
+        <dd class="mono text-step-neg1 font-medium text-bright">{spec.value}</dd>
+      </div>
+    ))
+  }
+</dl>

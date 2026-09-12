@@ -1,0 +1,27 @@
+---
+title: "Automated Manufacturing Systems — CNC Machine-Tending Cell"
+date: "TODO"
+status: "complete"
+featured: true
+category: "competition"
+summary: "A three-tier machine-tending cell: PLC for real-time logic, a vision-guided Pi for part detection, and a robotic arm for pick-and-place."
+tech: ["OpenPLC", "ONNX", "TFLite", "Arduino", "Computer Vision"]
+cover: "../../assets/projects/cnc-machine-tending-cell/cover.jpg"
+coverAlt: "PLACEHOLDER — replace with a real photo of the machine-tending cell"
+---
+
+## The problem
+
+Automated Manufacturing Systems competitions score a cell on whether it can tend a CNC machine unattended: detect a part, load it, run the cycle, and clear it, all without a person in the loop. That requires three very different kinds of computing to work together reliably — hard real-time machine logic, vision, and motion — not just one clever piece of code.
+
+## The build
+
+The cell splits work across three tiers by what each layer is actually good at. An Arduino Mega running OpenPLC handles the real-time, safety-critical logic — machine I/O, interlocks, cycle sequencing — the way an industrial cell actually would. A Raspberry Pi 5 runs the vision system, using ONNX and TFLite models to detect and locate parts. A Feetech servo-based arm handles the physical pick-and-place between the vision station and the machine.
+
+## The approach
+
+Splitting real-time control from vision was a deliberate architecture choice, not an accident: PLC logic needs deterministic timing that a Python vision loop on the same board can't guarantee, so OpenPLC on dedicated Arduino hardware owns anything safety- or timing-critical, while the Pi 5 is free to run heavier ONNX/TFLite inference on its own schedule and simply hands the PLC a part location over a defined interface once it has one.
+
+## The result
+
+TODO — add competition results, cycle time, and video.

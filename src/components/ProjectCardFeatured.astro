@@ -1,0 +1,89 @@
+---
+import { Image } from 'astro:assets';
+import type { Project } from '../lib/projects';
+import VideoFacade from './VideoFacade.astro';
+
+interface Props {
+  project: Project;
+  number: string;
+}
+
+const { project, number } = Astro.props;
+const { title, summary, tech, youtube, github, docs, date, cover, coverAlt } = project.data;
+---
+
+<div
+  data-project
+  data-category={project.data.category}
+  data-video={youtube ? 'true' : 'false'}
+  class="relative py-6 pl-10"
+>
+  <span
+    aria-hidden="true"
+    class="absolute top-9 left-[-5px] block h-3 w-3 rounded-full border-2 border-accent bg-accent"
+  ></span>
+  <span aria-hidden="true" class="absolute top-9 left-[10px] h-px w-4 bg-line"></span>
+
+  <div class="mono text-step-neg1 text-muted">
+    <span>{number}</span>
+    <span class="ml-2">{date}</span>
+  </div>
+
+  <h3 class="mt-1 text-step-1 font-bold text-bright">
+    <a href={`/projects/${project.id}/`} class="hover:text-accent">{title}</a>
+  </h3>
+
+  <p class="prose-column mt-3 text-text">{summary}</p>
+
+  {youtube ? (
+    <VideoFacade videoId={youtube} title={title} class="mt-4 rounded-lg" />
+  ) : (
+    cover && (
+      <Image
+        src={cover}
+        alt={coverAlt ?? ''}
+        width={800}
+        height={450}
+        class="mt-4 aspect-video w-full rounded-lg object-cover"
+      />
+    )
+  )}
+
+  <ul class="mt-4 flex flex-wrap gap-2" aria-label="Technologies used">
+    {
+      tech.map((t) => (
+        <li class="mono rounded border border-line px-2 py-1 text-step-neg1 text-muted">{t}</li>
+      ))
+    }
+  </ul>
+
+  <div class="mt-4 flex flex-wrap gap-4 text-step-neg1">
+    {
+      github && (
+        <a href={github} target="_blank" rel="noopener noreferrer" class="text-muted hover:text-accent">
+          GitHub
+        </a>
+      )
+    }
+    {
+      youtube && (
+        <a
+          href={`https://youtube.com/watch?v=${youtube}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="text-muted hover:text-accent"
+        >
+          YouTube
+        </a>
+      )
+    }
+    {
+      docs && (
+        <a href={docs} target="_blank" rel="noopener noreferrer" class="text-muted hover:text-accent">
+          Docs
+        </a>
+      )
+    }
+    <a href={`/projects/${project.id}/`} class="text-muted hover:text-accent">Full writeup</a>
+  </div>
+</div>

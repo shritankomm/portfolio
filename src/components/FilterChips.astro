@@ -1,0 +1,85 @@
+---
+import { CATEGORIES, CATEGORY_FILTER_LABELS } from '../config/site';
+---
+
+<div
+  role="radiogroup"
+  aria-label="Filter projects by category"
+  id="filter-chips"
+  class="flex flex-nowrap gap-2 overflow-x-auto lg:flex-col lg:flex-wrap lg:items-start lg:gap-1 lg:overflow-visible"
+>
+  {
+    CATEGORIES.map((cat) => (
+      <button
+        type="button"
+        role="radio"
+        aria-checked={cat === 'all' ? 'true' : 'false'}
+        data-filter={cat}
+        class:list={[
+          'filter-chip shrink-0 rounded-full px-3 py-1.5 text-step-neg1 font-medium text-muted transition-colors',
+          'hover:text-text lg:rounded-none lg:px-0 lg:py-1',
+          { 'is-active text-accent': cat === 'all' }
+        ]}
+      >
+        {CATEGORY_FILTER_LABELS[cat]}
+      </button>
+    ))
+  }
+</div>
+
+<script>
+  const GROUP_SELECTOR = '[data-year-group]';
+  const ITEM_SELECTOR = '[data-project]';
+
+  function currentFilterFromURL(): string {
+    const params = new URLSearchParams(window.location.search);
+    return params.get('filter') ?? 'all';
+  }
+
+  function applyFilter(filter: string) {
+    const items = document.querySelectorAll<HTMLElement>(ITEM_SELECTOR);
+    items.forEach((item) => {
+      const category = item.dataset.category;
+      const hasVideo = item.dataset.video === 'true';
+      const matches = filter === 'all' || category === filter || (filter === 'video' && hasVideo);
+      item.hidden = !matches;
+    });
+
+    document.querySelectorAll<HTMLElement>(GROUP_SELECTOR).forEach((group) => {
+      const visibleItem = group.querySelector(`${ITEM_SELECTOR}:not([hidden])`);
+      group.hidden = !visibleItem;
+    });
+
+    document.querySelectorAll<HTMLButtonElement>('.filter-chip').forEach((chip) => {
+      const isActive = chip.dataset.filter === filter;
+      chip.setAttribute('aria-checked', String(isActive));
+      chip.classList.toggle('is-active', isActive);
+      chip.classList.toggle('text-accent', isActive);
+      chip.classList.toggle('text-muted', !isActive);
+    });
+  }
+
+  function setFilter(filter: string, { pushURL = true } = {}) {
+    applyFilter(filter);
+    try {
+      sessionStorage.setItem('portfolio-filter', filter);
+    } catch {
+      // sessionStorage unavailable (private mode, etc.) — filter persistence is a convenience, not required
+    }
+    if (pushURL) {
+      const url = new URL(window.location.href);
+      if (filter === 'all') {
+        url.searchParams.delete('filter');
+      } else {
+        url.searchParams.set('filter', filter);
+      }
+      window.history.replaceState({}, '', url);
+    }
+  }
+
+  document.querySelectorAll<HTMLButtonElement>('.filter-chip').forEach((chip) => {
+    chip.addEventListener('click', () => setFilter(chip.dataset.filter!));
+  });
+
+  setFilter(currentFilterFromURL(), { pushURL: false });
+</script>

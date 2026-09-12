@@ -1,0 +1,98 @@
+---
+import Icon from './Icon.astro';
+import type { Project } from '../lib/projects';
+
+interface Props {
+  project: Project;
+  number: string;
+}
+
+const { project, number } = Astro.props;
+const { title, summary, tech, date, github, youtube, docs } = project.data;
+const rowId = `row-${project.id}`;
+---
+
+<div
+  data-project
+  data-category={project.data.category}
+  data-video={youtube ? 'true' : 'false'}
+  class="group relative pl-10"
+>
+  <span
+    aria-hidden="true"
+    class="absolute top-[18px] left-[-5px] block h-2.5 w-2.5 rounded-full border-2 border-line bg-ink"
+  ></span>
+  <span aria-hidden="true" class="absolute top-[18px] left-[8px] h-px w-4 bg-line"></span>
+
+  <div class="flex min-h-14 items-center gap-3 border-b border-line/60 py-2">
+    <button
+      type="button"
+      class="row-toggle flex h-6 w-6 shrink-0 items-center justify-center text-muted hover:text-accent"
+      aria-expanded="false"
+      aria-controls={rowId}
+      aria-label={`Show details for ${title}`}
+    >
+      <Icon name="chevron-down" class="row-chevron transition-transform" />
+    </button>
+
+    <span class="mono w-20 shrink-0 text-step-neg1 text-muted">{date}</span>
+
+    <a href={`/projects/${project.id}/`} class="min-w-0 flex-1 truncate font-medium text-text hover:text-accent">
+      {title}
+    </a>
+
+    <span class="hidden max-w-xs truncate text-step-neg1 text-muted md:block">{summary}</span>
+
+    <div class="flex shrink-0 items-center gap-2">
+      {
+        github && (
+          <a href={github} target="_blank" rel="noopener noreferrer" aria-label={`${title} on GitHub`} class="text-muted hover:text-accent">
+            <Icon name="github" />
+          </a>
+        )
+      }
+      {
+        youtube && (
+          <a
+            href={`https://youtube.com/watch?v=${youtube}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={`Watch ${title} on YouTube`}
+            class="text-muted hover:text-accent"
+          >
+            <Icon name="youtube" />
+          </a>
+        )
+      }
+    </div>
+  </div>
+
+  <div id={rowId} class="row-detail grid grid-rows-[0fr] transition-[grid-template-rows] duration-300 ease-out">
+    <div class="overflow-hidden">
+      <div class="py-3 pl-9">
+        <p class="prose-column text-step-neg1 text-muted">{summary}</p>
+        <ul class="mt-2 flex flex-wrap gap-2" aria-label="Technologies used">
+          {tech.map((t) => <li class="mono rounded border border-line px-2 py-0.5 text-step-neg1 text-muted">{t}</li>)}
+        </ul>
+        {docs && (
+          <a href={docs} target="_blank" rel="noopener noreferrer" class="mt-2 inline-block text-step-neg1 text-muted hover:text-accent">
+            Docs
+          </a>
+        )}
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.querySelectorAll<HTMLButtonElement>('.row-toggle').forEach((button) => {
+    button.addEventListener('click', () => {
+      const expanded = button.getAttribute('aria-expanded') === 'true';
+      button.setAttribute('aria-expanded', String(!expanded));
+      const detail = document.getElementById(button.getAttribute('aria-controls')!);
+      detail?.classList.toggle('grid-rows-[1fr]', !expanded);
+      detail?.classList.toggle('grid-rows-[0fr]', expanded);
+      button.querySelector('.row-chevron')?.classList.toggle('rotate-180', !expanded);
+    });
+  });
+</script>

@@ -1,0 +1,39 @@
+---
+title: "7-DOF 3D-Printed Open Arm"
+date: "TODO"
+status: "in-progress"
+featured: true
+category: "robotics"
+summary: "A fully 3D-printed 7-DOF humanoid robotic arm designed to be buildable by makers on a budget, with real-time bilateral and VR teleoperation."
+tech: ["ROS 2", "MoveIt 2", "Python", "Gazebo", "Raspberry Pi", "Fusion 360"]
+youtube: "9L26LDluzQg"
+github: "https://github.com/shritankomm/7-DOF-3DP-Open-Arm"
+cover: "../../assets/projects/7-dof-3dp-open-arm/cover.jpg"
+coverAlt: "PLACEHOLDER — replace with a real photo: the arm's shoulder joint with the servo horn and printed bracket exposed"
+specs:
+  - { label: "DOF", value: "7 DOF" }
+  - { label: "Servos", value: "16 servos" }
+  - { label: "BOM", value: "$724" }
+  - { label: "Control loop", value: "60 Hz" }
+  - { label: "Material", value: "PETG" }
+---
+
+## The problem
+
+Most capable robotic arms are either industrial units costing tens of thousands of dollars, or hobby kits with two or three degrees of freedom that can't approximate real human-arm motion. There wasn't an accessible middle ground: a 7-DOF arm — enough to match a human shoulder-elbow-wrist configuration — that a maker with a 3D printer and a few hundred dollars could actually build, and that came with a real software stack rather than an Arduino sketch.
+
+## The build
+
+The 7-DOF 3D-Printed Open Arm is a full-scale humanoid robotic arm, structurally 3D-printed end to end in PETG. It's driven by 16 Feetech STS3215/STS3250 smart servos and controlled by a Raspberry Pi 4 running the full ROS 2 stack onboard — not offloaded to a desktop over Wi-Fi. The arm supports two teleoperation modes: a real-time bilateral mirror setup (a second, identical arm acts as an input device and its joint positions are mirrored live) and VR teleoperation through Quest2ROS, letting an operator drive the arm's end effector with hand tracking.
+
+## The approach
+
+The software stack is ROS 2 Jazzy end to end. Motion planning runs through MoveIt 2, using `pick_ik` as the inverse kinematics solver — chosen over the default KDL solver because `pick_ik`'s cost-function approach handles the arm's redundant 7th degree of freedom (null-space motion) far better, letting the arm reposition its elbow without moving the end effector. Everything is validated in simulation first: the full URDF runs in Gazebo Harmonic before anything touches hardware, which caught several joint-limit and self-collision issues that would have snapped a printed bracket on the real arm.
+
+On the hardware side, the servo bus runs a 60 Hz control loop — fast enough for smooth teleoperated motion without saturating the Pi 4's CPU budget, which also has to run perception and the ROS 2 graph. The mechanical design in Fusion 360 went through several bracket revisions to keep wall thickness printable without supports while still surviving the torque loads at the shoulder, which carries the most load of any joint in the chain.
+
+## The result
+
+The arm holds and moves through its full 7-DOF range under both teleoperation modes; the linked video shows the bilateral mirror teleop and VR teleop sessions. The full build — CAD files, BOM, and ROS 2 packages — is public on GitHub so other makers can reproduce it for under $750 in parts.
+
+**TODO:** add build photos, quantify teleop tracking latency, and link the written build documentation once published.

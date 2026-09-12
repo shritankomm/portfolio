@@ -1,0 +1,53 @@
+---
+import { groupByYear, type YearGroup as YearGroupType } from '../lib/projects';
+import YearGroup from './YearGroup.astro';
+import type { getAllProjects } from '../lib/projects';
+
+interface Props {
+  projects: Awaited<ReturnType<typeof getAllProjects>>;
+}
+
+const { projects } = Astro.props;
+const groups: YearGroupType[] = groupByYear(projects);
+
+const RECENT_YEAR_COUNT = 2;
+const hasEarlier = groups.length > RECENT_YEAR_COUNT;
+---
+
+<div class="relative">
+  <ol class="relative border-l border-line pl-0">
+    {
+      groups.map((group, index) => (
+        <YearGroup group={group} collapsible={index >= RECENT_YEAR_COUNT} />
+      ))
+    }
+  </ol>
+
+  {
+    hasEarlier && (
+      <button
+        type="button"
+        id="show-earlier"
+        aria-expanded="false"
+        class="mono mt-6 ml-10 rounded border border-line px-4 py-2 text-step-neg1 text-muted hover:border-accent hover:text-accent"
+      >
+        Show earlier projects
+      </button>
+    )
+  }
+</div>
+
+<script>
+  const button = document.getElementById('show-earlier');
+  const panels = document.querySelectorAll<HTMLElement>('.earlier-year .collapse-panel');
+
+  button?.addEventListener('click', () => {
+    const expanded = button.getAttribute('aria-expanded') === 'true';
+    button.setAttribute('aria-expanded', String(!expanded));
+    panels.forEach((panel) => {
+      panel.classList.toggle('grid-rows-[1fr]', !expanded);
+      panel.classList.toggle('grid-rows-[0fr]', expanded);
+    });
+    button.textContent = expanded ? 'Show earlier projects' : 'Hide earlier projects';
+  });
+</script>
