@@ -6,12 +6,11 @@ export const SITE_CONFIG = {
   // TODO: replace with the owner's final wording (draft from spec §7.1)
   tagline: 'I build open-source robotic arms and write the software that drives them.',
   links: {
+    // TODO: resume PDF not added yet — place it at public/resume.pdf once ready
     resume: 'resume.pdf', // resolved against the base path — see src/lib/url.ts
     github: 'https://github.com/shritankomm',
-    // TODO: YouTube channel URL needed from owner
-    youtube: 'https://www.youtube.com/TODO',
-    // TODO: LinkedIn profile URL needed from owner
-    linkedin: 'https://www.linkedin.com/in/TODO'
+    youtube: 'https://www.youtube.com/@shritankommareddy1792',
+    linkedin: 'https://www.linkedin.com/in/shritan-kommareddy-0b894237a/'
   },
   // this repo's own GitHub URL, for the footer per §7.3 — update once the site repo is created
   repoUrl: 'https://github.com/shritankomm/portfolio'

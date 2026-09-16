@@ -1,6 +1,7 @@
 ---
 import '../styles/global.css';
 import { url } from '../lib/url';
+import { SITE_CONFIG } from '../config/site';
 
 interface Props {
   title: string;
@@ -15,13 +16,10 @@ const ogImageURL = new URL(ogImage, Astro.site);
 const personJsonLd = {
   '@context': 'https://schema.org',
   '@type': 'Person',
-  name: 'Shritan Kommareddy',
+  name: SITE_CONFIG.name,
   jobTitle: 'Robotics builder',
   url: Astro.site?.toString(),
-  sameAs: [
-    'https://github.com/shritankomm'
-    // TODO: add LinkedIn and YouTube channel URLs once provided (see README)
-  ]
+  sameAs: [SITE_CONFIG.links.github, SITE_CONFIG.links.youtube, SITE_CONFIG.links.linkedin]
 };
 ---
 

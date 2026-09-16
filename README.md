@@ -110,7 +110,7 @@ To switch in real Satoshi:
 
 All 9 current projects have real dates. What's still outstanding:
 
-- **Header links** — Resume, LinkedIn, GitHub, and YouTube URLs in `src/config/site.ts` are placeholders.
+- **Resume** — `public/resume.pdf` doesn't exist yet; the header button will 404 until it's added. GitHub, YouTube, and LinkedIn are set.
 - **Missing links per project** (leave the frontmatter field unset until you have the real URL — the UI already shows a TODO note in the body copy):
   - Assistive Wheelchair Arm — no links yet
   - URS — no links yet, and its cover is a placeholder (needs real screenshots/demo)
