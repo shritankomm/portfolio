@@ -1,4 +1,5 @@
 ---
+import { Image } from 'astro:assets';
 import Icon from './Icon.astro';
 import type { Project } from '../lib/projects';
 import { url } from '../lib/url';
@@ -9,7 +10,7 @@ interface Props {
 }
 
 const { project, number } = Astro.props;
-const { title, summary, tech, date, github, youtube, docs } = project.data;
+const { title, summary, tech, date, github, youtube, docs, cover, coverAlt } = project.data;
 const rowId = `row-${project.id}`;
 ---
 
@@ -35,6 +36,16 @@ const rowId = `row-${project.id}`;
     >
       <Icon name="chevron-down" class="row-chevron transition-transform" />
     </button>
+
+    {cover && (
+      <Image
+        src={cover}
+        alt={coverAlt ?? ''}
+        width={40}
+        height={40}
+        class="h-10 w-10 shrink-0 rounded object-cover"
+      />
+    )}
 
     <span class="mono w-24 shrink-0 text-step-neg1 text-muted">{number} {date}</span>
 
