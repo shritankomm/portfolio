@@ -2,11 +2,14 @@ import { getCollection, type CollectionEntry } from 'astro:content';
 
 export type Project = CollectionEntry<'projects'>;
 
-/** Newest first. Projects with `endDate` sort by their most recent activity. */
+/**
+ * Newest first, by start date. `endDate` is display-only (the range shown on
+ * detail pages) — sorting by it instead would put a project like "Fall 2025 –
+ * Spring 2026" ahead of one dated "2026-03", even though its own displayed
+ * date reads 2025 and would look out of order next to it.
+ */
 export function sortByDateDesc(a: Project, b: Project) {
-  const aKey = a.data.endDate ?? a.data.date;
-  const bKey = b.data.endDate ?? b.data.date;
-  return bKey.localeCompare(aKey);
+  return b.data.date.localeCompare(a.data.date);
 }
 
 export async function getAllProjects(): Promise<Project[]> {
@@ -15,8 +18,7 @@ export async function getAllProjects(): Promise<Project[]> {
 }
 
 export function yearOf(project: Project): string {
-  const raw = project.data.endDate ?? project.data.date;
-  const match = raw.match(/^\d{4}/);
+  const match = project.data.date.match(/^\d{4}/);
   return match ? match[0] : 'TODO';
 }
 
