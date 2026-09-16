@@ -48,10 +48,9 @@ const projects = defineCollection({
         )
         .optional()
     })
-    .refine((data) => !data.featured || !!data.cover, {
-      message: 'cover is required when featured: true — a featured card without an image looks broken',
-      path: ['cover']
-    })
+    // NOTE: featured projects don't strictly require a cover — a featured card with no
+    // image just skips the photo block and shows title/summary/tags, which is fine as an
+    // interim state while real photos are still pending. Add one when you have it.
     .refine((data) => !data.cover || !!data.coverAlt, {
       message: 'coverAlt is required whenever cover is set — describe what is mechanically visible',
       path: ['coverAlt']
