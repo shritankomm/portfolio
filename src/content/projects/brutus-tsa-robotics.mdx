@@ -1,0 +1,35 @@
+---
+title: "Brutus — TSA Robotics"
+date: "2025-09"
+endDate: "2026-03"
+status: "complete"
+featured: true
+category: "competition"
+summary: "The robot that won 1st at TSA Nationals — a surgery-inspired precision arm, a versatile motorized claw, and inverse-kinematics macros for repeatable control."
+tech: ["Onshape", "C++", "VEX", "Inverse Kinematics"]
+cover: "../../assets/projects/brutus-tsa-robotics/cover.png"
+coverAlt: "Overview board of Brutus, the TSA Nationals-winning robot, showing the full assembled robot"
+specs:
+  - { label: "Award", value: "1st Place, TSA Nationals" }
+---
+
+import { Image } from 'astro:assets';
+import systemsBoard from '../../assets/projects/brutus-tsa-robotics/01-systems-board.png';
+
+## The problem
+
+TSA Robotics scores on precision and repeatability as much as raw capability — a claw that can grab things isn't enough if it can't return to the same position reliably, run after run, under competition pressure.
+
+## The build
+
+Brutus is a VEX robot fully designed in Onshape, running custom C++. Its signature feature is a surgery-inspired precision arm paired with a versatile motorized claw, controlled through inverse-kinematics macros that let a single high-level command drive the arm to a repeatable position rather than tuning each joint by hand every run.
+
+<Image src={systemsBoard} alt="Systems board detailing Brutus's arm, claw, and control architecture" />
+
+## The approach
+
+The inverse-kinematics macros were the core engineering bet: rather than programming discrete joint positions for every task, Brutus's control system solves for the arm's joint angles given a target end-effector position, the same approach used in "real" robotic arms, scaled down to VEX hardware and C++. That's what made the arm's surgery-inspired precision motion actually repeatable under competition conditions instead of drifting run to run.
+
+## The result
+
+1st Place, TSA Nationals. TODO — add a competition run video and additional build photos.

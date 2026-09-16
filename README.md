@@ -108,7 +108,21 @@ To switch in real Satoshi:
 
 ## Known TODOs
 
-See the end of the initial build's assistant summary for the consolidated list — in short: real project dates (all 11 seed projects currently have `date: "TODO"`, which collapses the timeline into a single group until fixed), LinkedIn and YouTube channel URLs, `public/resume.pdf`, real cover photos for the 3 featured projects (currently placeholders), the WebPID itch.io link, final tagline wording, and a domain name for `astro.config.mjs`'s `site` field and the sitemap.
+All 9 current projects have real dates. What's still outstanding:
+
+- **Header links** — Resume, LinkedIn, GitHub, and YouTube URLs in `src/config/site.ts` are placeholders.
+- **Missing links per project** (leave the frontmatter field unset until you have the real URL — the UI already shows a TODO note in the body copy):
+  - Assistive Wheelchair Arm — no links yet
+  - URS — no links yet, and its cover is a placeholder (needs real screenshots/demo)
+  - ESP Student Curriculum — no links yet
+  - Brutus — TSA Robotics — no links yet
+  - StablStep — GitHub repo + the MIT THINK technical writeup (PDF)
+  - FRC "Charged Up" Practice Bot — no links yet, and its cover is a placeholder (needs a CAD render)
+  - Myoelectric Prosthetic Hand — Onshape link
+  - Mini Bike Chassis — Onshape link
+- **Body writeups** — several projects have "The approach" / "The result" sections still marked TODO; fill these in with real detail once you have time to write them up.
+- **Tagline wording** — still the spec's draft in `src/config/site.ts`.
+- **Domain name** — `astro.config.mjs`'s `site`/`base` currently point at the GitHub Pages URL (`shritankomm.github.io/portfolio`); update both (and drop `base` entirely) if a custom domain gets set up.
 
 ---
 

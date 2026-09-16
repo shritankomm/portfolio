@@ -1,0 +1,38 @@
+---
+title: "7-DOF FDM Open Arm"
+date: "2026-06"
+status: "complete"
+featured: true
+category: "robotics"
+summary: "A fully open-source, FDM-printed humanoid arm anyone can build on a budget — ROS 2, onboard vision, VR and mirror teleop, and a full YouTube build guide."
+tech: ["ROS 2", "MoveIt 2", "Python", "Raspberry Pi 4", "Feetech servos", "3D Printed"]
+youtube: "9L26LDluzQg"
+github: "https://github.com/shritankomm/7-DOF-3DP-Open-Arm"
+cover: "../../assets/projects/7-dof-fdm-open-arm/cover.png"
+coverAlt: "CAD render of the 7-DOF FDM-printed open arm assembly"
+specs:
+  - { label: "DOF", value: "7 DOF" }
+  - { label: "Servos", value: "16 servos" }
+  - { label: "BOM", value: "$724" }
+  - { label: "Control loop", value: "60 Hz" }
+  - { label: "Funding", value: "Hack Club" }
+  - { label: "Recognition", value: "Buildathon-awarded" }
+---
+
+## The problem
+
+Most capable robotic arms are either industrial units costing tens of thousands of dollars, or hobby kits with two or three degrees of freedom that can't approximate real human-arm motion. There wasn't an accessible, fully open-source middle ground: a 7-DOF arm — enough to match a human shoulder-elbow-wrist configuration — that a maker with an FDM printer and a few hundred dollars could actually build, with a real software stack and documentation, not just a parts list.
+
+## The build
+
+The 7-DOF FDM Open Arm is a full-scale humanoid robotic arm, structurally 3D-printed (FDM) end to end. It's driven by 16 Feetech smart servos and controlled by a Raspberry Pi 4 running the full ROS 2 stack onboard, with onboard vision for perception rather than offloading to a desktop. The arm supports two teleoperation modes — a real-time bilateral mirror setup and VR teleoperation — and ships with a full long-form YouTube build guide so anyone can reproduce it.
+
+## The approach
+
+The software stack is ROS 2 end to end. Motion planning runs through MoveIt 2, using `pick_ik` as the inverse kinematics solver — chosen over the default KDL solver because its cost-function approach handles the arm's redundant 7th degree of freedom (null-space motion) far better, letting the arm reposition its elbow without moving the end effector. Everything is validated in simulation before touching hardware, which caught several joint-limit and self-collision issues that would have snapped a printed bracket on the real arm.
+
+Open-sourcing it properly — CAD, BOM, ROS 2 packages, and a full build guide — was as much the point as the hardware itself, which is also why it was built with Hack Club funding: to make sure a genuinely capable arm stays reproducible by other makers, not just a one-off build.
+
+## The result
+
+The arm holds and moves through its full 7-DOF range under both teleoperation modes, shown in the linked video and full build guide. It was recognized at a buildathon, and the complete build — CAD, BOM, and ROS 2 packages — is public on GitHub so other makers can reproduce it for under $750 in parts.

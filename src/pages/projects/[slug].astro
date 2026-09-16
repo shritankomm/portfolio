@@ -1,5 +1,6 @@
 ---
 import { render } from 'astro:content';
+import { Image } from 'astro:assets';
 import Layout from '../../layouts/Layout.astro';
 import Icon from '../../components/Icon.astro';
 import SpecsBlock from '../../components/SpecsBlock.astro';
@@ -21,7 +22,7 @@ export async function getStaticPaths() {
 
 const { project, prev, next } = Astro.props;
 const { Content } = await render(project);
-const { title, date, endDate, status, category, specs, github, youtube, docs } = project.data;
+const { title, date, endDate, status, category, specs, github, youtube, docs, cover, coverAlt } = project.data;
 
 const STATUS_LABELS: Record<typeof status, string> = {
   complete: 'Complete',
@@ -75,7 +76,19 @@ const jsonLd = {
       )}
     </div>
 
-    {youtube && <VideoFacade videoId={youtube} title={title} class="mt-8 max-w-content rounded-lg" />}
+    {youtube ? (
+      <VideoFacade videoId={youtube} title={title} class="mt-8 max-w-content rounded-lg" />
+    ) : (
+      cover && (
+        <Image
+          src={cover}
+          alt={coverAlt ?? ''}
+          width={1200}
+          height={675}
+          class="mt-8 aspect-video w-full max-w-content rounded-lg object-cover"
+        />
+      )
+    )}
 
     <div class="prose-column mt-10 text-text [&_h2]:mt-8 [&_h2]:text-step-2 [&_h2]:font-bold [&_h2]:text-bright [&_p]:mt-3">
       <Content />
