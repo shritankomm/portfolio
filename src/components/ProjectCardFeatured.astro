@@ -1,8 +1,7 @@
 ---
-import { Image } from 'astro:assets';
 import type { Project } from '../lib/projects';
 import { url } from '../lib/url';
-import VideoFacade from './VideoFacade.astro';
+import MediaGallery from './MediaGallery.astro';
 
 interface Props {
   project: Project;
@@ -10,7 +9,13 @@ interface Props {
 }
 
 const { project, number } = Astro.props;
-const { title, summary, tech, youtube, github, docs, date, cover, coverAlt } = project.data;
+const { title, summary, tech, youtube, github, docs, date, cover, coverAlt, gallery } = project.data;
+
+const mediaSlides = [
+  ...(youtube ? [{ video: { id: youtube, title } }] : []),
+  ...(cover ? [{ image: cover, alt: coverAlt }] : []),
+  ...(gallery ?? []).map((g) => ({ image: g.image, alt: g.alt }))
+];
 ---
 
 <div
@@ -36,19 +41,7 @@ const { title, summary, tech, youtube, github, docs, date, cover, coverAlt } = p
 
   <p class="prose-column mt-3 text-text">{summary}</p>
 
-  {youtube ? (
-    <VideoFacade videoId={youtube} title={title} class="mt-4 rounded-lg" />
-  ) : (
-    cover && (
-      <Image
-        src={cover}
-        alt={coverAlt ?? ''}
-        width={800}
-        height={450}
-        class="mt-4 aspect-video w-full rounded-lg object-cover"
-      />
-    )
-  )}
+  <MediaGallery slides={mediaSlides} class="mt-4" />
 
   <ul class="mt-4 flex flex-wrap gap-2" aria-label="Technologies used">
     {
