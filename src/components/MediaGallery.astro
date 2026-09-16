@@ -1,0 +1,108 @@
+---
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+import Icon from './Icon.astro';
+import VideoFacade from './VideoFacade.astro';
+
+interface Slide {
+  video?: { id: string; title: string };
+  image?: ImageMetadata;
+  alt?: string;
+}
+
+interface Props {
+  slides: Slide[];
+  class?: string;
+}
+
+const { slides, class: className = '' } = Astro.props;
+const showNav = slides.length > 1;
+---
+
+{
+  slides.length > 0 && (
+    <div class:list={['media-gallery relative', className]} role="region" aria-roledescription="carousel" aria-label="Project media">
+      <div class="gallery-track flex snap-x snap-mandatory overflow-x-auto scroll-smooth [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        {slides.map((slide) =>
+          slide.video ? (
+            <div class="w-full shrink-0 snap-center">
+              <VideoFacade videoId={slide.video.id} title={slide.video.title} class="aspect-video w-full rounded-lg" />
+            </div>
+          ) : (
+            slide.image && (
+              <div class="w-full shrink-0 snap-center">
+                <Image
+                  src={slide.image}
+                  alt={slide.alt ?? ''}
+                  width={1200}
+                  height={675}
+                  class="aspect-video w-full rounded-lg object-cover"
+                />
+              </div>
+            )
+          )
+        )}
+      </div>
+
+      {showNav && (
+        <>
+          <button type="button" class="gallery-prev absolute top-1/2 left-2 -translate-y-1/2 rounded-full border border-line bg-ink/80 p-2 text-text hover:border-accent hover:text-accent" aria-label="Previous photo">
+            <Icon name="chevron-down" class="rotate-90" />
+          </button>
+          <button type="button" class="gallery-next absolute top-1/2 right-2 -translate-y-1/2 rounded-full border border-line bg-ink/80 p-2 text-text hover:border-accent hover:text-accent" aria-label="Next photo">
+            <Icon name="chevron-down" class="-rotate-90" />
+          </button>
+          <div class="gallery-dots mt-3 flex justify-center gap-2">
+            {slides.map((_, i) => (
+              <button
+                type="button"
+                class:list={['gallery-dot h-2 w-2 rounded-full', i === 0 ? 'bg-accent' : 'bg-line']}
+                aria-label={`Go to slide ${i + 1}`}
+                aria-current={i === 0 ? 'true' : 'false'}
+                data-index={i}
+              />
+            ))}
+          </div>
+        </>
+      )}
+    </div>
+  )
+}
+
+<script>
+  document.querySelectorAll<HTMLElement>('.media-gallery').forEach((gallery) => {
+    const track = gallery.querySelector<HTMLElement>('.gallery-track');
+    const dots = Array.from(gallery.querySelectorAll<HTMLButtonElement>('.gallery-dot'));
+    if (!track) return;
+
+    function slideWidth() {
+      return track!.clientWidth;
+    }
+
+    function currentIndex() {
+      return Math.round(track!.scrollLeft / slideWidth());
+    }
+
+    function goTo(index: number) {
+      track!.scrollTo({ left: index * slideWidth(), behavior: 'smooth' });
+    }
+
+    gallery.querySelector('.gallery-prev')?.addEventListener('click', () => {
+      goTo(Math.max(0, currentIndex() - 1));
+    });
+    gallery.querySelector('.gallery-next')?.addEventListener('click', () => {
+      goTo(Math.min(dots.length - 1, currentIndex() + 1));
+    });
+    dots.forEach((dot, i) => dot.addEventListener('click', () => goTo(i)));
+
+    track.addEventListener('scroll', () => {
+      const active = currentIndex();
+      dots.forEach((dot, i) => {
+        const isActive = i === active;
+        dot.setAttribute('aria-current', String(isActive));
+        dot.classList.toggle('bg-accent', isActive);
+        dot.classList.toggle('bg-line', !isActive);
+      });
+    });
+  });
+</script>

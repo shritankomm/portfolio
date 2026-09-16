@@ -29,6 +29,16 @@ const projects = defineCollection({
       docs: z.string().url().optional(),
       cover: image().optional(),
       coverAlt: z.string().optional(),
+      // Extra photos beyond `cover`, shown in a scrollable gallery on the detail page.
+      // `cover` (and the video, if any) are always the first slide(s) — don't repeat them here.
+      gallery: z
+        .array(
+          z.object({
+            image: image(),
+            alt: z.string()
+          })
+        )
+        .optional(),
       specs: z
         .array(
           z.object({
