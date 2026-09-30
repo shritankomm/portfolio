@@ -1,6 +1,7 @@
 ---
 import { Image } from 'astro:assets';
 import Icon from './Icon.astro';
+import MediaGallery from './MediaGallery.astro';
 import type { Project } from '../lib/projects';
 import { url } from '../lib/url';
 
@@ -10,8 +11,14 @@ interface Props {
 }
 
 const { project, number } = Astro.props;
-const { title, summary, tech, date, github, youtube, docs, cover, coverAlt } = project.data;
+const { title, summary, tech, date, github, youtube, docs, cover, coverAlt, gallery } = project.data;
 const rowId = `row-${project.id}`;
+
+const mediaSlides = [
+  ...(youtube ? [{ video: { id: youtube, title } }] : []),
+  ...(cover ? [{ image: cover, alt: coverAlt }] : []),
+  ...(gallery ?? []).map((g) => ({ image: g.image, alt: g.alt }))
+];
 ---
 
 <div
@@ -83,6 +90,7 @@ const rowId = `row-${project.id}`;
   <div id={rowId} class="row-detail grid grid-rows-[0fr] transition-[grid-template-rows] duration-300 ease-out">
     <div class="overflow-hidden">
       <div class="py-3 pl-9">
+        <MediaGallery slides={mediaSlides} class="mb-3 max-w-xl" />
         <p class="prose-column text-step-neg1 text-muted">{summary}</p>
         <ul class="mt-2 flex flex-wrap gap-2" aria-label="Technologies used">
           {tech.map((t) => <li class="mono rounded border border-line px-2 py-0.5 text-step-neg1 text-muted">{t}</li>)}
