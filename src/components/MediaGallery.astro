@@ -30,13 +30,14 @@ const showNav = slides.length > 1;
             </div>
           ) : (
             slide.image && (
-              <div class="w-full shrink-0 snap-center">
+              <div class="aspect-video w-full shrink-0 snap-center overflow-hidden rounded-lg bg-surface">
                 <Image
                   src={slide.image}
                   alt={slide.alt ?? ''}
                   width={1200}
                   height={675}
-                  class="aspect-video w-full rounded-lg object-cover"
+                  fit="contain"
+                  class="h-full w-full object-contain"
                 />
               </div>
             )
