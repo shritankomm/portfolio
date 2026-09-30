@@ -4,7 +4,7 @@ date: "2025-01"
 status: "complete"
 featured: false
 category: "robotics"
-summary: "My first real CAD project — a 1:1 replica of a mini bike chassis with real mini bike wheels and a Honda motor, and how I learned surface modeling and sweeps."
+summary: "My first real CAD project: a 1:1 replica of a mini bike chassis with real mini bike wheels and a Honda motor, and how I learned surface modeling and sweeps."
 tech: ["CAD", "Surface Modeling", "Sweeps"]
 cover: "../../assets/projects/mini-bike-chassis/cover.png"
 coverAlt: "CAD render of the 1:1 mini bike chassis replica"
@@ -12,7 +12,7 @@ coverAlt: "CAD render of the 1:1 mini bike chassis replica"
 
 ## The problem
 
-Before this, I hadn't done a CAD project with real curved, swept geometry — everything up to this point was boxy. A 1:1 replica of an actual mini bike chassis, matched to real wheels and a real motor, forced learning surface modeling instead of extrudes.
+Before this, I hadn't done a CAD project with real curved, swept geometry. Everything up to this point was boxy. A 1:1 replica of an actual mini bike chassis, matched to real wheels and a real motor, forced learning surface modeling instead of extrudes.
 
 ## The build
 
@@ -20,8 +20,8 @@ A 1:1 replica of a mini bike chassis, dimensioned to fit real mini bike wheels a
 
 ## The approach
 
-TODO — expand on the surface modeling workflow and how the sweeps were constrained to match the real motor and wheel dimensions.
+The frame is built from two parallel main tubes running from the steering head back to the engine cradle, tied together with cross braces and a small rear rack platform rather than a single central backbone, which is the layout that gave the model a reason to use sweeps in the first place: the front fork isn't a straight tube, it curves down and back to set the wheel's trail, and getting that curve right meant sweeping a circular profile along a 3D path instead of just extruding a straight cylinder. The engine, tank, and both wheels were modeled to their real part dimensions rather than approximated, since the whole point was a chassis that would actually bolt up to hardware that already existed rather than a chassis designed around an imagined engine. That meant working backward from fixed points (the engine's mounting bolt pattern, the wheel axle bore diameter, the chain line) and building the frame geometry to reach all of them correctly, instead of drawing a frame shape first and hoping the parts would fit.
 
 ## The result
 
-My first real CAD project, and how I learned surface modeling and sweeps. TODO — add the Onshape link.
+My first real CAD project, and how I learned surface modeling and sweeps. TODO: add the Onshape link.
