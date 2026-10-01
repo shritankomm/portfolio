@@ -23,13 +23,5 @@ const projects = await getAllProjects();
         <Timeline projects={projects} />
       </main>
     </div>
-
-    <footer class="border-t border-line py-8 text-step-neg1 text-muted">
-      <p>
-        Built with Astro + Tailwind, deployed on Vercel. &copy; {new Date().getFullYear()}{' '}
-        {SITE_CONFIG.name}. <a href={SITE_CONFIG.repoUrl} class="hover:text-accent" target="_blank" rel="noopener noreferrer">Site source</a>.
-      </p>
-      <p class="mt-1">Design influenced by Brittany Chiang.</p>
-    </footer>
   </div>
 </Layout>

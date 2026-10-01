@@ -9,9 +9,7 @@ export const SITE_CONFIG = {
     github: 'https://github.com/shritankomm',
     youtube: 'https://www.youtube.com/@shritankommareddy1792',
     linkedin: 'https://www.linkedin.com/in/shritan-kommareddy-0b894237a/'
-  },
-  // this repo's own GitHub URL, for the footer per §7.3 — update once the site repo is created
-  repoUrl: 'https://github.com/shritankomm/portfolio'
+  }
 };
 
 export const CATEGORIES = ['all', 'robotics', 'software', 'competition', 'video'] as const;
