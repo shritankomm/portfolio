@@ -33,7 +33,7 @@ const mediaSlides = [
   ></span>
   <span aria-hidden="true" class="absolute top-[18px] left-[8px] h-px w-4 bg-line"></span>
 
-  <div class="flex min-h-14 items-center gap-3 border-b border-line/60 py-2">
+  <div class="flex min-h-14 items-start gap-3 border-b border-line/60 py-2">
     <button
       type="button"
       class="row-toggle flex h-6 w-6 shrink-0 items-center justify-center text-muted hover:text-accent"
@@ -57,11 +57,9 @@ const mediaSlides = [
 
     <span class="mono w-24 shrink-0 text-step-neg1 text-muted">{number} {date}</span>
 
-    <a href={url(`projects/${project.id}/`)} class="min-w-0 flex-1 truncate font-medium text-text hover:text-accent">
+    <a href={url(`projects/${project.id}/`)} class="min-w-0 flex-1 font-medium text-text hover:text-accent">
       {title}
     </a>
-
-    <span class="hidden max-w-xs truncate text-step-neg1 text-muted md:block">{summary}</span>
 
     <div class="flex shrink-0 items-center gap-2">
       {
