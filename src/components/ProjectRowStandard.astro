@@ -37,11 +37,11 @@ const mediaSlides = [
     <button
       type="button"
       class="row-toggle flex h-6 w-6 shrink-0 items-center justify-center text-muted hover:text-accent"
-      aria-expanded="false"
+      aria-expanded="true"
       aria-controls={rowId}
-      aria-label={`Show details for ${title}`}
+      aria-label={`Hide details for ${title}`}
     >
-      <Icon name="chevron-down" class="row-chevron transition-transform" />
+      <Icon name="chevron-down" class="row-chevron rotate-180 transition-transform" />
     </button>
 
     {cover && (
@@ -85,7 +85,7 @@ const mediaSlides = [
     </div>
   </div>
 
-  <div id={rowId} class="row-detail grid grid-rows-[0fr] transition-[grid-template-rows] duration-300 ease-out">
+  <div id={rowId} class="row-detail grid grid-rows-[1fr] transition-[grid-template-rows] duration-300 ease-out">
     <div class="overflow-hidden">
       <div class="py-3 pl-9">
         <MediaGallery slides={mediaSlides} class="mb-3 max-w-xl" />
@@ -105,9 +105,11 @@ const mediaSlides = [
 
 <script>
   document.querySelectorAll<HTMLButtonElement>('.row-toggle').forEach((button) => {
+    const title = button.getAttribute('aria-label')!.replace(/^(Show|Hide) details for /, '');
     button.addEventListener('click', () => {
       const expanded = button.getAttribute('aria-expanded') === 'true';
       button.setAttribute('aria-expanded', String(!expanded));
+      button.setAttribute('aria-label', `${expanded ? 'Show' : 'Hide'} details for ${title}`);
       const detail = document.getElementById(button.getAttribute('aria-controls')!);
       detail?.classList.toggle('grid-rows-[1fr]', !expanded);
       detail?.classList.toggle('grid-rows-[0fr]', expanded);
