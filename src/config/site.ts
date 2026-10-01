@@ -3,10 +3,8 @@
 
 export const SITE_CONFIG = {
   name: 'Shritan Kommareddy',
-  // TODO: replace with the owner's final wording (draft from spec §7.1)
-  tagline: 'I build open-source robotic arms and write the software that drives them.',
+  tagline: "I'm a passionate high schooler interested in robotics and engineering that makes a real impact.",
   links: {
-    // TODO: resume PDF not added yet — place it at public/resume.pdf once ready
     resume: 'resume.pdf', // resolved against the base path — see src/lib/url.ts
     github: 'https://github.com/shritankomm',
     youtube: 'https://www.youtube.com/@shritankommareddy1792',
