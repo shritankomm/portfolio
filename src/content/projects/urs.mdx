@@ -4,23 +4,19 @@ date: "2026-07"
 status: "complete"
 featured: false
 category: "software"
-summary: "A Dockerized, full-stack app for simulating and controlling robots: one place to run everything, and an easy hardware layer for AI (VLA) robot control."
-tech: ["Docker", "Full-Stack", "CAN", "UART", "URDF"]
+summary: "A cross-platform robotics studio for configuring, simulating, and controlling any robot from one app, with safety-critical control kept isolated from simulation."
+tech: ["Python", "TypeScript", "Electron", "ROS 2", "Docker"]
 # cover: TODO, add once screenshots/demo are ready
 ---
 
 ## The problem
 
-Every robot project tends to reinvent its own bespoke stack for simulation, control, and hardware I/O. That's slow to set up and makes it harder for AI-driven (vision-language-action) control approaches to plug into arbitrary hardware without custom glue code per robot.
+Every robot project tends to reinvent its own bespoke stack for simulation, control, and hardware I/O, and that burden multiplies once you want to support more than one kind of robot. Setting up a full ROS environment for every new arm, drivetrain, or legged platform is slow, and it makes it harder for AI-driven (vision-language-action) control approaches to plug into arbitrary hardware without custom glue code per robot.
 
 ## The build
 
-URS is a Dockerized, full-stack application that brings robot simulation and control into one place: load a URDF, simulate it, and drive real hardware over CAN or UART through the same interface, a consistent hardware layer that AI/VLA control systems can target without robot-specific wiring.
+URS (Universal Robot Studio) is a cross-platform robotics development environment that handles configuring, simulating, controlling, and testing different robots from a single application. Import a robot through its URDF or xacro description, and URS validates and repairs common model issues, classifies it as an arm, wheeled, or legged platform, generates collision geometry, and turns it into a ready-to-use project. From there you can visualize it in 3D, run kinematic and reachability analysis, teleoperate it, record motions, and eventually execute commands on the physical hardware, all without hand-configuring a ROS environment for every robot.
 
 ## The approach
 
-TODO: expand on the architecture, how the full-stack app is split, what the Docker setup provides, and why CAN/UART were chosen as the hardware abstraction layer.
-
-## The result
-
-TODO: add a demo video, screenshots, and a GitHub link once published.
+The system is split into three independent layers on purpose: compute (ROS 2, simulation, planning, and inverse kinematics), data (communication with that compute environment), and safety, which runs directly on the host computer and stays isolated from the other two. That separation means an emergency stop, a watchdog heartbeat, or a joint limit check doesn't depend on the simulation stack or the compute link being healthy; it keeps working even if those don't. Actuator control goes through a unified hardware abstraction layer (Feetech STS/SCS bus servos today, experimental DYNAMIXEL X-series support in progress), and a simulated servo bus reproduces real actuator communication so the entire control and safety stack can be exercised before a single motor is connected. The desktop interface is an Electron and React app with a Three.js 3D viewer, backed by a Python library (`robostudio`) that exposes robot import, kinematics, motion control, and safety systems through a public API and CLI, while a separate containerized environment (`robostudio-ros`) runs ROS 2 Jazzy, MoveIt 2, and Gazebo Harmonic for the heavier simulation and planning work. Unit tests, property tests, integration tests, and protocol golden traces run in CI to catch unsafe behavior before it reaches real hardware.
