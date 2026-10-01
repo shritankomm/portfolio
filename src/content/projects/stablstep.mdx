@@ -7,9 +7,11 @@ featured: true
 category: "robotics"
 summary: "A prosthetic foot that actively balances across multiple axes using PID control and machine learning to predict steps and adjust in real time."
 tech: ["Onshape", "PID", "Machine Learning", "Arduino"]
-cover: "../../assets/projects/stablstep/cover.webp"
-coverAlt: "CAD render of the StablStep self-stabilizing prosthetic foot assembly, showing the dual-shock ankle mechanism and drive servos"
+cover: "../../assets/projects/stablstep/cover.jpg"
+coverAlt: "The printed StablStep ankle prototype on a desk, showing the spring-damped shock cartridge between the foot paddle and the servo housing"
 gallery:
+  - image: "../../assets/projects/stablstep/01-cad-render.webp"
+    alt: "CAD render of the StablStep self-stabilizing prosthetic foot assembly, showing the dual-shock ankle mechanism and drive servos"
   - image: "../../assets/projects/stablstep/02-real-build.jpg"
     alt: "The 3D-printed StablStep foot prototype wired to an Arduino on a test bench"
 specs:
@@ -29,8 +31,6 @@ StablStep actively balances across multiple axes, something standard prosthetics
 
 The ankle joint is spring-damped rather than rigid: a shock-absorber-style cartridge sits between the foot paddle and the upper ankle block, so the mechanism has some passive give built in before the PID loop even has to react, similar to how a real ankle has passive compliance from tendons and cartilage before muscles engage. The printed prototype shown here tests that mechanism directly on an Arduino Uno with a breadboard before it's folded into the full servo and sensor stack from the CAD model, which is the right order to build it in: prove the passive mechanics work and feel right under load first, then layer active correction on top rather than debugging both at once.
 
-TODO: expand on the sensor setup, how the ML step-prediction model was trained, and how it hands off to the PID loop for real-time correction.
-
 ## The result
 
-Submitted to HOSA In-House 2025 and the MIT THINK Scholars program. The printed prototype, wired up and under test, is shown above. TODO: add the GitHub link and the MIT THINK technical writeup (PDF) once available.
+Submitted to HOSA In-House 2025 and the MIT THINK Scholars program. The printed prototype, wired up and under test, is shown above.
