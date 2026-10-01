@@ -108,20 +108,31 @@ To switch in real Satoshi:
 
 ## Known TODOs
 
-All 9 current projects have real dates. What's still outstanding:
+Resume and tagline are done. The rest of this list is tracked here on purpose:
+the public pages don't show "TODO" text anywhere, so anything still missing
+has to live in this file instead or it gets lost. When you fill one of these
+in, delete its line.
 
-- **Resume** — `public/resume.pdf` doesn't exist yet; the header button will 404 until it's added. GitHub, YouTube, and LinkedIn are set.
-- **Missing links per project** (leave the frontmatter field unset until you have the real URL — the UI already shows a TODO note in the body copy):
-  - Assistive Wheelchair Arm — no links yet
-  - URS — no links yet, and its cover is a placeholder (needs real screenshots/demo)
-  - ESP Student Curriculum — no links yet
-  - Brutus — TSA Robotics — no links yet
-  - StablStep — GitHub repo + the MIT THINK technical writeup (PDF)
-  - FRC "Charged Up" Practice Bot — no links yet, and its cover is a placeholder (needs a CAD render)
-  - Myoelectric Prosthetic Hand — Onshape link
-  - Mini Bike Chassis — Onshape link
-- **Body writeups** — several projects have "The approach" / "The result" sections still marked TODO; fill these in with real detail once you have time to write them up.
-- **Tagline wording** — still the spec's draft in `src/config/site.ts`.
+**Missing links per project** (fill in the frontmatter field once you have the real URL):
+- Assistive Wheelchair Arm — no links yet, and no real cover photo yet (currently renders with no image block at all, see `src/content.config.ts` for why that's allowed)
+- URS — no links yet, no cover (needs real screenshots/demo); the body is otherwise a full writeup
+- ESP Student Curriculum — no links yet
+- Brutus — TSA Robotics — no links yet
+- StablStep — GitHub repo + the MIT THINK technical writeup (PDF)
+- FRC "Charged Up" Practice Bot — no links yet
+- Myoelectric Prosthetic Hand — Onshape link
+- Mini Bike Chassis — Onshape link
+
+**Writeup sections that were cut rather than left as visible placeholders**
+(the four-heading problem/build/approach/result structure from the build spec
+is a convention, not a hard requirement; a project just skips a heading
+until there's something real to put under it):
+- ESP Student Curriculum — no "The approach" section yet (how the curriculum is sequenced, what each lesson builds toward)
+- FRC "Charged Up" Practice Bot — no "The result" section yet (competition photos, match footage, how it actually did)
+- Myoelectric Prosthetic Hand — no "The result" section yet (Onshape link, demo video)
+- Assistive Wheelchair Arm, Brutus, Mini Bike Chassis, StablStep — each lost a trailing TODO sentence about adding more photos/video/links; the rest of their writeups are real
+
+**Other**
 - **Domain name** — `astro.config.mjs`'s `site`/`base` currently point at the GitHub Pages URL (`shritankomm.github.io/portfolio`); update both (and drop `base` entirely) if a custom domain gets set up.
 
 ---

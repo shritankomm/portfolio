@@ -23,7 +23,3 @@ A prosthetic hand sized to my own hand, reading muscle signals through an EMG se
 ## The approach
 
 Each finger is built as a chain of pin-hinged segments, so a single tendon can flex the whole finger by pulling through every joint at once rather than needing a separate actuator per knuckle. That's what makes six servos enough to drive a full hand: one servo and one tendon per finger, plus a separate servo and joint for the thumb, which sits rotated on the side of the palm rather than in line with the fingers so it can oppose them the way a real thumb does. The EMG sensor reads raw muscle activity as an analog signal, which the Arduino thresholds and maps to a simple open or close command per channel rather than trying to reconstruct fine proportional control from a noisy signal on a first pass. The palm itself is a flat structural plate with mounting feet at the wrist end, keeping the hand's own geometry simple so the finger mechanisms are what carry the design.
-
-## The result
-
-TODO: add the Onshape CAD link and a demo video.
